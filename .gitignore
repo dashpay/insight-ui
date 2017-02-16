@@ -47,3 +47,7 @@ public/css/main.css
 README.html
 po/*
 !po/*.po
+
+/mynode
+
+public/img/icons/favicon_insight.ico
