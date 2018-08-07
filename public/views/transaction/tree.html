@@ -1,0 +1,19 @@
+<section data-ng-controller="TreeTransactionsController">
+    <div class="line-bot row">
+        <p align="center">
+            <b>Tree Visualization </b>
+        </p>
+        <p align="center">
+            <svg width="550" height="40">
+                <g class="node">
+                    <circle class="spentTx" cx="7" cy="8" r="5" /><text x="17" y="11">Output is spent - Click to load its children.</text>
+                    <circle class="unspentTx" cx="215" cy="8" r="5" /><text x="225" y="11">Output is unspent and has no children.</text>
+                    <!--<text x="408" y="11">Double click to reset zoom.</text>-->
+                </g>
+            </svg> 
+        </p>
+        <svg id="chart">
+            <g d3 d3-data="transactionData" d3-renderer="circleRenderer"></g>
+        </svg>
+    </div>
+</section>

@@ -912,3 +912,41 @@ fieldset[disabled] .btn-info:hover {
     color: #cfe3f4;
     background-color: transparent;
 }
+
+/* d3 tree Visualization*/
+
+.node circle {
+    fill: #444;
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+
+.node {
+    font: 10px sans-serif;
+}
+
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+
+.value {
+    font-weight:bold;
+    fill:#008de4;
+}
+
+.node .unspentTx {
+  fill: #8a8a8a;
+}
+
+.node .spentTx {
+  fill: #0478c3;
+  cursor: pointer;
+}
+
+.link {
+  stroke: lightsteelblue;
+  stroke-width: 2.5px;
+  fill-opacity: 0;
+}
