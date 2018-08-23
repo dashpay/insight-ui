@@ -22,8 +22,7 @@ angular.module('insight',[
   'insight.status',
   'insight.connection',
   'insight.currency',
-  'insight.messages',
-  'd3'
+  'insight.messages'
 ]);
 
 angular.module('insight.system', []);
