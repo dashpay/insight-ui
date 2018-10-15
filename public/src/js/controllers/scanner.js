@@ -26,7 +26,36 @@ angular.module('insight.system').controller('ScannerController',
       }
     };
 
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    $scope.getUserMediaNew = false;
+    $scope.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    if (typeof $scope.getUserMedia === 'undefined' ) {
+      $scope.getUserMediaNew = true;
+      $scope.getUserMedia = navigator.mediaDevices;
+    } else {
+      if (typeof $scope.getUserMedia.getUserMedia === 'undefined' ) {
+        $scope.getUserMediaNew = true;
+        $scope.getUserMedia = navigator.mediaDevices;
+      }
+    }
+    if (typeof $scope.getUserMedia === 'undefined' ) {
+      //disable menu button
+      $rootScope.cameraQRScannerAvailable = false;
+    } else {
+      $rootScope.cameraQRScannerAvailable = true;
+    }
+    var MediaStream = window.MediaStream;
+    if (typeof MediaStream === 'undefined' && typeof webkitMediaStream !== 'undefined') {
+        MediaStream = webkitMediaStream;
+    }
+    //cross-browser stream.stop (chrome and new firefox)
+    if (typeof MediaStream !== 'undefined' && !('stop' in MediaStream.prototype)) {
+        MediaStream.prototype.stop = function() {
+            this.getVideoTracks().forEach(function(track) {
+                track.stop();
+            });
+        };
+    }
     window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 
     $scope.isMobile = isMobile.any();
@@ -88,7 +117,11 @@ angular.module('insight.system').controller('ScannerController',
     };
 
     var _successCallback = function(stream) {
-      video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+      if ($scope.getUserMediaNew) {
+        video.srcObject = stream
+      } else {
+        video.src = (window.URL && window.URL.createObjectURL(stream)) || stream;
+      }
       localMediaStream = stream;
       video.play();
       setTimeout(_scan, 1000);
@@ -106,6 +139,7 @@ angular.module('insight.system').controller('ScannerController',
 
     var _videoError = function(err) {
       console.log('Video Error: ' + JSON.stringify(err));
+      $rootScope.cameraQRScannerAvailable = false;
       _scanStop();
     };
 
@@ -119,6 +153,10 @@ angular.module('insight.system').controller('ScannerController',
         .triggerHandler('change')
         .triggerHandler('submit');
     };
+    
+    $scope.global.modalInstance.result.then(function(){}, function(){
+      _scanStop();
+    });
 
     $scope.cancel = function() {
       _scanStop();
@@ -142,7 +180,8 @@ angular.module('insight.system').controller('ScannerController',
           canvas.height = 225;
           context.clearRect(0, 0, 300, 225);
 
-          navigator.getUserMedia({video: true}, _successCallback, _videoError); 
+          //navigator.getUserMedia({video: true}, _successCallback, _videoError);
+          $scope.getUserMedia.getUserMedia({video: true}).then(_successCallback).catch(_videoError);
         }
       }, 500);
     });

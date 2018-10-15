@@ -41,7 +41,7 @@
         <strong>{{'Height'|translate}}</strong> {{totalBlocks || info.blocks}}
       </div>
       </li>
-      <li>
+      <li ng-hide="!cameraQRScannerAvailable">
         <a data-ng-click="openScannerModal()"><span class="glyphicon
             glyphicon-qrcode"></span> Scan</a>
       </li>
