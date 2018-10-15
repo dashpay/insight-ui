@@ -44,4 +44,5 @@ angular.module('insight.system').controller('HeaderController',
     });
 
     $rootScope.isCollapsed = true;
+    $rootScope.cameraQRScannerAvailable = true;
   });
