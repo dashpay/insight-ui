@@ -43,5 +43,6 @@ angular.module('insight.system').controller('HeaderController',
       });
     });
 
-    $rootScope.isCollapsed = true;
+    $scope.isCollapsed = true;
+    setInterval(function(){ $scope.isCollapsed = true; }, 3000);
   });
