@@ -23,6 +23,9 @@ docker build -t "${IMAGE_NAME}:latest" \
              --build-arg "VERSION=${PACKAGE_TAG}" \
              .
 
+# Login to Docker Hub
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
 # Push images to the registry
 docker push "${IMAGE_NAME}:latest"
 docker push "${IMAGE_NAME}:${PACKAGE_TAG}"
