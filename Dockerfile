@@ -1,8 +1,5 @@
 FROM node:8-alpine
 
-LABEL maintainer="Dash Developers <dev@dash.org>"
-LABEL description="Dockerised Insight-Dash"
-
 RUN apk add --update --no-cache git \
                                 libzmq \
                                 zeromq-dev \
@@ -29,6 +26,9 @@ RUN /insight/bin/dashcore-node install @dashevo/insight-api@${MAJOR_VERSION}
 RUN /insight/bin/dashcore-node install @dashevo/insight-ui@${VERSION}
 
 FROM node:8-alpine
+
+LABEL maintainer="Dash Developers <dev@dash.org>"
+LABEL description="Dockerised Insight-Dash"
 
 COPY --from=0 /insight /
 
