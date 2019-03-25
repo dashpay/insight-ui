@@ -21,10 +21,14 @@ ARG VERSION
 ARG MAJOR_VERSION
 
 # install
-RUN npm i --save
+RUN npm ci
 
 RUN /insight/bin/dashcore-node install @dashevo/insight-api@${MAJOR_VERSION}
 RUN /insight/bin/dashcore-node install @dashevo/insight-ui@${VERSION}
+
+FROM node:8-alpine
+
+COPY --from=0 /insight /
 
 EXPOSE 3001
 
