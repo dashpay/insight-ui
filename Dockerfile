@@ -12,17 +12,19 @@ RUN apk add --update --no-cache git \
 
 WORKDIR /insight
 
-RUN git clone https://github.com/dashevo/dashcore-node.git /insight
+# Copy dashcore-node
+RUN git clone --branch master --single-branch --depth 1 https://github.com/dashevo/dashcore-node.git /insight
 
-# copy config file
+# Copy config file
 COPY dashcore-node.json /insight/dashcore-node.json
+
+# Install NPM modules
+RUN npm ci
 
 ARG VERSION
 ARG MAJOR_VERSION
 
-# install
-RUN npm ci
-
+# Install Insight modules
 RUN /insight/bin/dashcore-node install @dashevo/insight-api@${MAJOR_VERSION}
 RUN /insight/bin/dashcore-node install @dashevo/insight-ui@${VERSION}
 
