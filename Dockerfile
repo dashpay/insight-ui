@@ -33,6 +33,10 @@ LABEL description="Dockerised Insight-Dash"
 # Copy project files
 COPY --from=0 /insight/ /insight
 
+# Remove redundant config files
+RUN rm /insight/node_modules/@dashevo/insight-api/dashcore-node.json
+RUN rm /insight/node_modules/@dashevo/insight-ui/dashcore-node.json
+
 WORKDIR /insight
 
 EXPOSE 3001
