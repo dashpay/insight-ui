@@ -12,6 +12,7 @@ services:
   - xvfb
 
 addons:
+  env: MOZ_HEADLESS=1
   firefox: latest
   apt:
     sources:
