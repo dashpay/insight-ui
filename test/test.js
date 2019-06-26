@@ -88,7 +88,8 @@ describe('basic UI tests', () => {
             expect(syncType).equal("bitcore node");
 
             const lastBlockHash = await statusPage.getLastBlockHash();
-            expect(lastBlockHash).not.equal("");
+            console.log(`lastBlockHash: '${lastBlockHash}'`);
+            expect(lastBlockHash).not.equal('');
 
             const currentBlockchainTip = await statusPage.getCurrentBlockchainTip();
             expect(currentBlockchainTip).not.equal("");
