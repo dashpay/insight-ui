@@ -62,9 +62,9 @@ describe('basic UI tests', () => {
 
         it('should be able to open status page', async () => {
             await topPanel.openStatusPage();
-            await wait(2000);
+            await wait(3000);
             const title = await browser.getTitle();
-            expect(title).equal('Dash Blocks solved Today | Insight');
+            expect(title).equal('Status | Insight');
 
             const syncProgress = await statusPage.getSyncProgress();
             expect(syncProgress).equal("100% Complete");
