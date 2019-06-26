@@ -9,9 +9,9 @@ exports.config = {
         //     browserName: 'firefox',
         // },
         {
-            chromeOptions: {
-                args: [ "--headless" ]
-            },
+            // chromeOptions: {
+            //     args: [ "--headless" ]
+            // },
             browserName: 'chrome'
         }
     ]
