@@ -62,7 +62,7 @@ describe('basic UI tests', () => {
 
         it('should be able to open status page', async () => {
             await topPanel.openStatusPage();
-            await wait(3000);
+            await wait(5000);
             const title = await browser.getTitle();
             expect(title).equal('Status | Insight');
 
@@ -125,6 +125,8 @@ describe('basic UI tests', () => {
 
         it('should be able search by block number', async () => {
             const blockIdToSearch = '12';
+
+            console.log(await browser.getPageSource());
 
             topPanel.search(blockIdToSearch);
             const currentUrl = await browser.getCurrentUrl();
