@@ -126,11 +126,12 @@ describe('basic UI tests', () => {
         it('should be able search by block number', async () => {
             const blockIdToSearch = '12';
 
-            console.log(await browser.getPageSource());
 
             topPanel.search(blockIdToSearch);
             const currentUrl = await browser.getCurrentUrl();
             expect(currentUrl).equal(`${url}block/${blockIdToSearch}`);
+
+            console.log(await browser.getPageSource());
 
             const blockId = (await blockPage.getBlockId()).replace('Block #', '');
             expect(blockId).equal(blockIdToSearch);
