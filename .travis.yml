@@ -9,11 +9,15 @@ node_js:
 
 services:
   - docker
+  - xvfb
 
 addons:
   apt:
+    sources:
+      - google-chrome
     packages:
       - docker-ce
+      - google-chrome-stable
 
 branches:
   only:
@@ -26,9 +30,12 @@ before_install:
   - npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
   # Use latest supported NPM in order to speedup build and support `npm ci`
   - npm i -g npm@6
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
 install:
   - npm ci
+  - npm run ui_test
 
 deploy:
   - provider: script
