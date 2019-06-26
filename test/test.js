@@ -28,7 +28,7 @@ describe('basic UI tests', () => {
 
     });
 
-    afterAll(async function it() {
+    afterAll(async () =>{
         const instances = [
             masterNode,
         ];
@@ -62,7 +62,7 @@ describe('basic UI tests', () => {
 
         it('should be able to open status page', async () => {
             await topPanel.openStatusPage();
-            await wait(1500);
+            await wait(2000);
             const title = await browser.getTitle();
             expect(title).equal('Dash Blocks solved Today | Insight');
 
