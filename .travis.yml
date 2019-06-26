@@ -11,15 +11,17 @@ services:
   - docker
   - xvfb
 
+env:
+  - MOZ_HEADLESS=1
 addons:
   env: MOZ_HEADLESS=1
-  firefox: latest
   apt:
     sources:
       - google-chrome
     packages:
       - docker-ce
       - google-chrome-stable
+  firefox: latest
 
 branches:
   only:
