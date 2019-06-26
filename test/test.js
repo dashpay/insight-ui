@@ -62,7 +62,7 @@ describe('basic UI tests', () => {
 
         it('should be able to open status page', async () => {
             await topPanel.openStatusPage();
-            await wait(5000);
+            await wait(10000); // time to complete sync
             const title = await browser.getTitle();
             expect(title).equal('Status | Insight');
 
