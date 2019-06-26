@@ -14,7 +14,6 @@ services:
 env:
   - MOZ_HEADLESS=1
 addons:
-  env: MOZ_HEADLESS=1
   apt:
     sources:
       - google-chrome
