@@ -76,7 +76,7 @@ describe('basic UI tests', () => {
             expect(startDate).equal("Invalid date");
 
             const initialBlockChainHeight = await statusPage.getInitialBlockChainHeight();
-            expect(initialBlockChainHeight).equal("15");
+            expect(isInteger(parseInt(initialBlockChainHeight))).equal(true);
 
             const syncedBlocks = await statusPage.getSyncedBlocks();
             expect(syncedBlocks).equal("");
