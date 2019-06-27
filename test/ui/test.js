@@ -28,7 +28,7 @@ describe('basic UI tests', () => {
 
     });
 
-    afterAll(async () =>{
+    afterAll(async () => {
         const instances = [
             masterNode,
         ];
@@ -87,13 +87,12 @@ describe('basic UI tests', () => {
             const syncType = await statusPage.getSyncType();
             expect(syncType).equal("bitcore node");
 
-            console.log(await browser.getPageSource());
             const lastBlockHash = await statusPage.getLastBlockHash();
             console.log(`lastBlockHash: '${lastBlockHash}'`);
-            // expect(lastBlockHash).not.equal('');
+            expect(lastBlockHash).not.equal(undefined);
 
             const currentBlockchainTip = await statusPage.getCurrentBlockchainTip();
-            // expect(currentBlockchainTip).not.equal("");
+            expect(currentBlockchainTip).not.equal(undefined);
 
             const version = await statusPage.getVersion();
             expect(isInteger(parseInt(version))).equal(true);
@@ -126,12 +125,9 @@ describe('basic UI tests', () => {
         it('should be able search by block number', async () => {
             const blockIdToSearch = '12';
 
-
             topPanel.search(blockIdToSearch);
             const currentUrl = await browser.getCurrentUrl();
             expect(currentUrl).equal(`${url}block/${blockIdToSearch}`);
-
-            console.log(await browser.getPageSource());
 
             const blockId = (await blockPage.getBlockId()).replace('Block #', '');
             expect(blockId).equal(blockIdToSearch);
