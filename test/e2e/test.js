@@ -1,7 +1,7 @@
 'use strict';
 /* jshint ignore:start */
 // const {bootstrap} = require('bootstrap');
-const {expect, use} = require('chai');
+const {expect} = require('chai');
 const {isInteger} = require('../../lib/test/helpers/util/utils');
 const startInsightUI = require('../../lib/test/helpers/startInsightUI');
 const wait = require('../../lib/test/helpers/util/wait');

@@ -37,7 +37,6 @@ before_install:
 
 install:
   - npm ci
-  - npm run ui_test
 
 deploy:
   - provider: script
