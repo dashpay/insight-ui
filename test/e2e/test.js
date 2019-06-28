@@ -29,7 +29,6 @@ describe('basic UI tests', () => {
                 `${rootPath}/dashcore-node:/insight/node_modules/@dashevo/insight-ui/dashcore-node`,
                 `${rootPath}/po:/insight/node_modules/@dashevo/insight-ui/po`,
                 `${rootPath}/public:/insight/node_modules/@dashevo/insight-ui/public`,
-                // `${rootPath}/tesy:/usr/src/app/scripts`,
             ],
         };
 
@@ -62,7 +61,7 @@ describe('basic UI tests', () => {
 
     beforeEach(function () {
         originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 300000;
     });
 
     afterEach(function () {
