@@ -1,16 +1,18 @@
 'use strict';
 /* jshint ignore:start */
-
+// const {bootstrap} = require('bootstrap');
 const {expect, use} = require('chai');
-const {isInteger} = require('./helpers/util/utils');
-const startInsightUI = require('./helpers/startInsightUI');
-const wait = require('./helpers/util/wait');
+const {isInteger} = require('../../lib/test/helpers/util/utils');
+const startInsightUI = require('../../lib/test/helpers/startInsightUI');
+const wait = require('../../lib/test/helpers/util/wait');
+
+const topPanel = require('../../lib/test/helpers/pages/TopPanel');
+const blockPage = require('../../lib/test/helpers/pages/BlockPage');
+const statusPage = require('../../lib/test/helpers/pages/StatusPage');
+
+const InsightUIOptions = require('../../lib/test/helpers/container/InsightUIOptions');
 
 let originalTimeout;
-
-const topPanel = require('./helpers/pages/TopPanel');
-const blockPage = require('./helpers/pages/BlockPage');
-const statusPage = require('./helpers/pages/StatusPage');
 
 describe('basic UI tests', () => {
     let masterNode;
@@ -20,6 +22,29 @@ describe('basic UI tests', () => {
     let trxHash;
 
     beforeAll(async () => {
+
+
+        const rootPath = process.cwd() + '/../..';
+
+        const insightUIContainerOptions = {
+            throwErrorsFromLog: true,
+            volumes: [
+                `${rootPath}/dashcore-node:/insight/node_modules/@dashevo/insight-ui/dashcore-node`,
+                `${rootPath}/po:/insight/node_modules/@dashevo/insight-ui/po`,
+                `${rootPath}/public:/insight/node_modules/@dashevo/insight-ui/public`,
+                // `${rootPath}/tesy:/usr/src/app/scripts`,
+            ],
+        };
+
+        const insighUIOptions = {
+            cacheNodeModules: true,
+            localAppPath: rootPath,
+            container: insightUIContainerOptions,
+        };
+
+        InsightUIOptions.setDefaultCustomOptions(insighUIOptions);
+
+
         [masterNode] = await startInsightUI.many(1);
 
         url = `http://127.0.0.1:${masterNode.insightUi.options.getUiPort()}/insight/`;

@@ -48,8 +48,7 @@
     "build": "bower install && grunt compile",
     "watch": "grunt",
     "install-and-build": "npm install && npm run build",
-    "test": "mocha test",
-    "ui_test": "cd ./docker && docker build -t insight_local . && cd .. && ./node_modules/protractor/bin/webdriver-manager update && (./node_modules/protractor/bin/webdriver-manager start > webdriver.log 2>&1 &) && sleep 30 && ./node_modules/protractor/bin/protractor ./test/ui/conf.js",
+    "test": "webdriver-manager update && (webdriver-manager start > webdriver.log 2>&1 &) && sleep 30 && protractor ./test/ui/conf.js",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {},
