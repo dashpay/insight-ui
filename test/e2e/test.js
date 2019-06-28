@@ -23,8 +23,7 @@ describe('basic UI tests', () => {
 
     beforeAll(async () => {
 
-
-        const rootPath = process.cwd() + '/../..';
+        const rootPath = process.cwd();
 
         const insightUIContainerOptions = {
             throwErrorsFromLog: true,
