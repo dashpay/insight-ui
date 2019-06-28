@@ -48,7 +48,7 @@
     "build": "bower install && grunt compile",
     "watch": "grunt",
     "install-and-build": "npm install && npm run build",
-    "test": "webdriver-manager update && (webdriver-manager start > webdriver.log 2>&1 &) && sleep 30 && protractor ./test/ui/conf.js",
+    "test": "webdriver-manager update && (webdriver-manager start > webdriver.log 2>&1 &) && sleep 30 && protractor ./test/e2e/conf.js",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {},
