@@ -22,11 +22,9 @@ describe('basic UI tests', () => {
     let trxHash;
 
     beforeAll(async () => {
-
         const rootPath = process.cwd();
 
         const insightUIContainerOptions = {
-            throwErrorsFromLog: true,
             volumes: [
                 `${rootPath}/dashcore-node:/insight/node_modules/@dashevo/insight-ui/dashcore-node`,
                 `${rootPath}/po:/insight/node_modules/@dashevo/insight-ui/po`,
