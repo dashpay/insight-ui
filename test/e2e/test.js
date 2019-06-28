@@ -1,6 +1,5 @@
 'use strict';
 /* jshint ignore:start */
-// const {bootstrap} = require('bootstrap');
 const {expect} = require('chai');
 const {isInteger} = require('../../lib/test/helpers/util/utils');
 const startInsightUI = require('../../lib/test/helpers/startInsightUI');
@@ -61,7 +60,7 @@ describe('basic UI tests', () => {
 
     beforeEach(function () {
         originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 300000;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 250000;
     });
 
     afterEach(function () {
@@ -109,7 +108,6 @@ describe('basic UI tests', () => {
             expect(syncType).equal("bitcore node");
 
             const lastBlockHash = await statusPage.getLastBlockHash();
-            console.log(`lastBlockHash: '${lastBlockHash}'`);
             expect(lastBlockHash).not.equal(undefined);
 
             const currentBlockchainTip = await statusPage.getCurrentBlockchainTip();
