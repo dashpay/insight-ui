@@ -1,15 +1,14 @@
 'use strict';
 /* jshint ignore:start */
 const {expect} = require('chai');
-const {isInteger} = require('../../lib/test/helpers/util/utils');
-const startInsightUI = require('../../lib/test/helpers/startInsightUI');
-const wait = require('../../lib/test/helpers/util/wait');
+const startInsightUI = require('../../lib/test/startInsightUI');
+const wait = require('../../lib/test/util/wait');
 
-const topPanel = require('../../lib/test/helpers/pages/TopPanel');
-const blockPage = require('../../lib/test/helpers/pages/BlockPage');
-const statusPage = require('../../lib/test/helpers/pages/StatusPage');
+const topPanel = require('../../lib/test/pages/TopPanel');
+const blockPage = require('../../lib/test/pages/BlockPage');
+const statusPage = require('../../lib/test/pages/StatusPage');
 
-const InsightUIOptions = require('../../lib/test/helpers/container/InsightUIOptions');
+const InsightUIOptions = require('../../lib/test/container/InsightUIOptions');
 
 let originalTimeout;
 
@@ -96,7 +95,7 @@ describe('basic UI tests', () => {
             expect(startDate).equal("Invalid date");
 
             const initialBlockChainHeight = await statusPage.getInitialBlockChainHeight();
-            expect(isInteger(parseInt(initialBlockChainHeight))).equal(true);
+            expect(Number.isInteger(parseInt(initialBlockChainHeight))).equal(true);
 
             const syncedBlocks = await statusPage.getSyncedBlocks();
             expect(syncedBlocks).equal("");
@@ -114,10 +113,10 @@ describe('basic UI tests', () => {
             expect(currentBlockchainTip).not.equal(undefined);
 
             const version = await statusPage.getVersion();
-            expect(isInteger(parseInt(version))).equal(true);
+            expect(Number.isInteger(parseInt(version))).equal(true);
 
             const protocolVersion = await statusPage.getProtocolVersion();
-            expect(isInteger(parseInt(protocolVersion))).equal(true);
+            expect(Number.isInteger(parseInt(protocolVersion))).equal(true);
 
             const blocks = await statusPage.getBlocks();
             expect(blocks).equal("15");
@@ -176,9 +175,9 @@ describe('basic UI tests', () => {
             const size = await blockPage.getSize();
             expect(size).not.equal("");
             const version = await blockPage.getVersion();
-            expect(isInteger(parseInt(version))).equal(true);
+            expect(Number.isInteger(parseInt(version))).equal(true);
             const nonce = await blockPage.getNonce();
-            expect(isInteger(parseInt(nonce))).equal(true);
+            expect(Number.isInteger(parseInt(nonce))).equal(true);
             const nextBlock = await blockPage.getNextBlock();
 
             expect(nextBlock).equal((parseInt(blockId) + 1) + '');
@@ -219,9 +218,9 @@ describe('basic UI tests', () => {
             const size = await blockPage.getSize();
             expect(size).not.equal("");
             const version = await blockPage.getVersion();
-            expect(isInteger(parseInt(version))).equal(true);
+            expect(Number.isInteger(parseInt(version))).equal(true);
             const nonce = await blockPage.getNonce();
-            expect(isInteger(parseInt(nonce))).equal(true);
+            expect(Number.isInteger(parseInt(nonce))).equal(true);
             const nextBlock = await blockPage.getNextBlock();
             expect(nextBlock).equal((parseInt(blockId) + 1) + '');
 
