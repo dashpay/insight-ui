@@ -8,7 +8,7 @@ const topPanel = require('../../lib/test/pages/TopPanel');
 const blockPage = require('../../lib/test/pages/BlockPage');
 const statusPage = require('../../lib/test/pages/StatusPage');
 
-const InsightUIOptions = require('../../lib/test/container/InsightUIOptions');
+const InsightUIOptions = require('../../lib/test/service-ctl/InsightUIOptions');
 
 let originalTimeout;
 
