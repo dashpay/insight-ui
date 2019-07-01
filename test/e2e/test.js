@@ -29,7 +29,6 @@ describe('basic UI tests', () => {
     };
 
     const insighUIOptions = {
-      localAppPath: rootPath,
       container: insightUIContainerOptions,
     };
 
@@ -90,7 +89,7 @@ describe('basic UI tests', () => {
       expect(startDate).equal('Invalid date');
 
       const initialBlockChainHeight = await statusPage.getInitialBlockChainHeight();
-      expect(Number.isInteger(parseInt(initialBlockChainHeight))).equal(true);
+      expect(Number.isInteger(parseInt(initialBlockChainHeight, 10))).equal(true);
 
       const syncedBlocks = await statusPage.getSyncedBlocks();
       expect(syncedBlocks).equal('');
@@ -108,10 +107,10 @@ describe('basic UI tests', () => {
       expect(currentBlockchainTip).not.equal(undefined);
 
       const version = await statusPage.getVersion();
-      expect(Number.isInteger(parseInt(version))).equal(true);
+      expect(Number.isInteger(parseInt(version, 10))).equal(true);
 
       const protocolVersion = await statusPage.getProtocolVersion();
-      expect(Number.isInteger(parseInt(protocolVersion))).equal(true);
+      expect(Number.isInteger(parseInt(protocolVersion, 10))).equal(true);
 
       const blocks = await statusPage.getBlocks();
       expect(blocks).equal('15');
@@ -162,7 +161,7 @@ describe('basic UI tests', () => {
       const merkleRoot = await blockPage.getMerkleRoot();
       expect(merkleRoot).not.equal('');
       const previousBlock = await blockPage.getPreviousBlock();
-      expect(previousBlock).equal(`${parseInt(blockId) - 1}`);
+      expect(previousBlock).equal(`${parseInt(blockId, 10) - 1}`);
       const difficulty = await blockPage.getDifficulty();
       expect(difficulty).not.equal('');
       const bits = await blockPage.getBits();
@@ -170,12 +169,12 @@ describe('basic UI tests', () => {
       const size = await blockPage.getSize();
       expect(size).not.equal('');
       const version = await blockPage.getVersion();
-      expect(Number.isInteger(parseInt(version))).equal(true);
+      expect(Number.isInteger(parseInt(version, 10))).equal(true);
       const nonce = await blockPage.getNonce();
-      expect(Number.isInteger(parseInt(nonce))).equal(true);
+      expect(Number.isInteger(parseInt(nonce, 10))).equal(true);
       const nextBlock = await blockPage.getNextBlock();
 
-      expect(nextBlock).equal(`${parseInt(blockId) + 1}`);
+      expect(nextBlock).equal(`${parseInt(blockId, 10) + 1}`);
       trxHash = await blockPage.getTrxHash();
     });
 
@@ -205,7 +204,7 @@ describe('basic UI tests', () => {
       const merkleRoot = await blockPage.getMerkleRoot();
       expect(merkleRoot).not.equal('');
       const previousBlock = await blockPage.getPreviousBlock();
-      expect(previousBlock).equal(`${parseInt(blockId) - 1}`);
+      expect(previousBlock).equal(`${parseInt(blockId, 10) - 1}`);
       const difficulty = await blockPage.getDifficulty();
       expect(difficulty).not.equal('');
       const bits = await blockPage.getBits();
@@ -213,11 +212,11 @@ describe('basic UI tests', () => {
       const size = await blockPage.getSize();
       expect(size).not.equal('');
       const version = await blockPage.getVersion();
-      expect(Number.isInteger(parseInt(version))).equal(true);
+      expect(Number.isInteger(parseInt(version, 10))).equal(true);
       const nonce = await blockPage.getNonce();
-      expect(Number.isInteger(parseInt(nonce))).equal(true);
+      expect(Number.isInteger(parseInt(nonce, 10))).equal(true);
       const nextBlock = await blockPage.getNextBlock();
-      expect(nextBlock).equal(`${parseInt(blockId) + 1}`);
+      expect(nextBlock).equal(`${parseInt(blockId, 10) + 1}`);
 
       expect(await blockPage.getTrxHash()).equal(trxHash);
     });

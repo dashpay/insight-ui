@@ -9,8 +9,14 @@ exports.config = {
   multiCapabilities: [
     {
       browserName: 'firefox',
+      'moz:firefoxOptions': {
+        args: ['--headless'],
+      },
     },
     {
+      chromeOptions: {
+        args: ['--headless'],
+      },
       browserName: 'chrome',
     },
   ],
