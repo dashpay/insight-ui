@@ -39,6 +39,10 @@ install:
   - npm ci
   - npm install
 
+script:
+  - npm run lint || travis_terminate 1
+  - npm run test
+
 deploy:
   - provider: script
     skip_cleanup: true
