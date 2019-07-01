@@ -29,7 +29,6 @@ describe('basic UI tests', () => {
     };
 
     const insighUIOptions = {
-      cacheNodeModules: true,
       localAppPath: rootPath,
       container: insightUIContainerOptions,
     };
