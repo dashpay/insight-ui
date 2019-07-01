@@ -37,7 +37,6 @@ before_install:
 
 install:
   - npm ci
-  - npm install
 
 script:
   - npm run lint || travis_terminate 1
