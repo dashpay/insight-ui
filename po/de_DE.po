@@ -34,8 +34,8 @@ msgstr ""
 "REST und Websocket APIs um eigene Wallets oder Applikationen zu "
 "implementieren. Hierbei werden fortschrittlichere Abfragen der Blockchain "
 "ermöglicht, bei denen die RPC des dashd nicht mehr ausreichen. Der "
-"aktuelle <a href=\"https://github.com/dashpay/insight-ui-dash\" target=\"_blank"
-"\">Quellcode</a> ist auf Github zu finden."
+"aktuelle <a href=\"https://github.com/dashevo/insight-ui\" target=\"_blank"
+"\">Quellcode</a> ist auf GitHub zu finden."
 
 #: public/views/index.html
 msgid ""
@@ -45,8 +45,8 @@ msgid ""
 msgstr ""
 "<strong>insight</strong> befindet sich aktuell noch in der Entwicklung. "
 "Bitte sende alle gefundenen Fehler (Bugs) und Feedback zur weiteren "
-"Verbesserung an unseren <a href=\"https://github.com/dashpay/insight-ui-dash/issues"
-"\" target=\"_blank\">Github Issue Tracker</a>."
+"Verbesserung an unseren <a href=\"https://github.com/dashevo/insight-ui/issues"
+"\" target=\"_blank\">GitHub Issue Tracker</a>."
 
 #: public/views/index.html
 msgid "About"
@@ -142,7 +142,7 @@ msgstr "Schwierigkeit"
 
 #: public/views/transaction/tx.html
 msgid "Double spent attempt detected. From tx:"
-msgstr "Es wurde ein \"double Spend\" Versuch erkannt.Von tx:"
+msgstr "Es wurde ein \"double Spend\" Versuch erkannt. Von tx:"
 
 #: public/views/includes/connection.html
 msgid "Error!"
