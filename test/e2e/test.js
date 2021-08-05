@@ -51,7 +51,7 @@ describe('basic UI tests', () => {
       .map(i => i.remove()));
   });
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await browser.waitForAngularEnabled(false);
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 250000;
