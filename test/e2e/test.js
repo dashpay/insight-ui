@@ -51,7 +51,8 @@ describe('basic UI tests', () => {
       .map(i => i.remove()));
   });
 
-  beforeEach(() => {
+  beforeEach(async() => {
+    await browser.waitForAngularEnabled(false);
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 250000;
   });
@@ -62,7 +63,6 @@ describe('basic UI tests', () => {
 
   describe('Home Page', () => {
     it('should be able to open main page', async () => {
-      await browser.waitForAngularEnabled(false);
       await browser.get(url);
       const title = await browser.getTitle();
       expect(title).equal('Home | Insight');
