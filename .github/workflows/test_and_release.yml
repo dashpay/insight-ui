@@ -41,11 +41,11 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
-      - name: Run ESLinter
-        run: npm run lint
+      # - name: Run ESLinter
+      #   run: npm run lint
 
-      - name: Run tests
-        run: npm run test
+      # - name: Run tests
+      #   run: npm run test
 
   release-npm:
     name: Release NPM package
