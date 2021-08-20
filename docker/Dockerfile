@@ -5,7 +5,8 @@ RUN apk add --update --no-cache git \
                                 zeromq-dev \
                                 python \
                                 make \
-                                g++
+                                g++ \
+                                ca-certificates
 
 WORKDIR /insight
 
