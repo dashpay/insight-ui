@@ -1,4 +1,7 @@
 const { expect } = require('chai');
+
+const DashCoreOptions = require('@dashevo/dp-services-ctl/lib/services/dashCore/DashCoreOptions');
+
 const startInsightUI = require('../../lib/test/startInsightUI');
 const wait = require('../../lib/test/util/wait');
 
@@ -19,6 +22,12 @@ describe('basic UI tests', () => {
 
   beforeAll(async () => {
     const rootPath = process.cwd();
+
+    DashCoreOptions.setDefaultCustomOptions({
+      container: {
+        image: "dashpay/dashd:latest",
+      },
+    });
 
     const insightUIContainerOptions = {
       volumes: [
