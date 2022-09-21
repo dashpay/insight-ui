@@ -25,7 +25,7 @@ describe('basic UI tests', () => {
 
     DashCoreOptions.setDefaultCustomOptions({
       container: {
-        image: "dashpay/dashd:latest",
+        image: 'dashpay/dashd:latest',
       },
     });
 
