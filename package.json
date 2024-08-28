@@ -1,7 +1,7 @@
 {
   "name": "@dashevo/insight-ui",
   "description": "An open-source frontend for the Insight API. The Insight API provides you with a convenient, powerful and simple way to query and broadcast data on the Dash network and build your own services with it.",
-  "version": "4.0.8",
+  "version": "4.0.9",
   "repository": "git://github.com/dashevo/insight-ui.git",
   "contributors": [
     {
@@ -45,7 +45,7 @@
   ],
   "dashcoreNode": "dashcore-node",
   "scripts": {
-    "build": "grunt compile",
+    "build": "bower install && grunt compile",
     "watch": "grunt",
     "lint": "eslint .",
     "install-and-build": "npm install && npm run build",
@@ -53,6 +53,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "bower": "^1.8.14",
     "chai": "^4.2.0",
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
