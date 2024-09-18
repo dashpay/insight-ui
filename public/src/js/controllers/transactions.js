@@ -189,40 +189,40 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
 
 angular.module('insight.transactions').controller('SendRawTransactionController',
   function($scope, $http) {
-    $scope.transaction = '';
-    $scope.status = 'ready';  // ready|loading|sent|error
-    $scope.txid = '';
-    $scope.error = null;
+  $scope.transaction = '';
+  $scope.status = 'ready';  // ready|loading|sent|error
+  $scope.txid = '';
+  $scope.error = null;
 
-    $scope.formValid = function() {
-      return !!$scope.transaction;
+  $scope.formValid = function() {
+    return !!$scope.transaction;
+  };
+  $scope.send = function() {
+    var postData = {
+      rawtx: $scope.transaction
     };
-    $scope.send = function() {
-      var postData = {
-        rawtx: $scope.transaction
-      };
-      $scope.status = 'loading';
-      $http.post(window.apiPrefix + '/tx/send', postData)
-        .then(function(response) {
-          const { data, status, headers, config } = response;
-          if(typeof(data.txid) != 'string') {
-            // API returned 200 but the format is not known
-            $scope.status = 'error';
-            $scope.error = 'The transaction was sent but no transaction id was got back';
-            return;
-          }
-
-          $scope.status = 'sent';
-          $scope.txid = data.txid;
-        })
-        .catch(function(response) {
-          const { data, status, headers, config } = response;
+    $scope.status = 'loading';
+    $http.post(window.apiPrefix + '/tx/send', postData)
+      .then(function(response) {
+        const { data, status, headers, config } = response;
+        if(typeof(data.txid) != 'string') {
+          // API returned 200 but the format is not known
           $scope.status = 'error';
-          if(data) {
-            $scope.error = data;
-          } else {
-            $scope.error = "No error message given (connection error?)"
-          }
-        });
-    };
-  });
+          $scope.error = 'The transaction was sent but no transaction id was got back';
+          return;
+        }
+
+        $scope.status = 'sent';
+        $scope.txid = data.txid;
+      })
+      .catch(function(response) {
+        const { data, status, headers, config } = response;
+        $scope.status = 'error';
+        if(data) {
+          $scope.error = data;
+        } else {
+          $scope.error = "No error message given (connection error?)"
+        }
+      });
+  };
+});
