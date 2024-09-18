@@ -82,7 +82,10 @@ angular.module('insight.transactions').controller('transactionsController',
         console.log(tx.vinSimple);
         console.log(tx.voutSimple);
       } else {
-        tx.vinSimple = [tx.type === 6 ? 'QcTx' : 'MnHfTx'];
+        tx.vinSimple = [{
+          notAddr: true,
+          addresses: [tx.type === 6 ? 'QcTx' : 'MnHfTx'],
+        }];
         tx.voutSimple = [];
       }
     };
