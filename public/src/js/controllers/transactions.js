@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('insight.transactions').controller('transactionsController',
-  function ($scope, $rootScope, $routeParams, $location, Global, Transaction, TransactionsByBlock, TransactionsByAddress) {
+  function($scope, $rootScope, $routeParams, $location, Global, Transaction, TransactionsByBlock, TransactionsByAddress) {
     $scope.global = Global;
     $scope.loading = false;
     $scope.loadedBy = null;
@@ -10,7 +10,7 @@ angular.module('insight.transactions').controller('transactionsController',
     var pagesTotal = 1;
     var COIN = 100000000;
 
-    var _aggregateItems = function (items) {
+    var _aggregateItems = function(items) {
       if (!items) return [];
 
       var l = items.length;
@@ -19,11 +19,10 @@ angular.module('insight.transactions').controller('transactionsController',
       var tmp = {};
       var u = 0;
 
-      for (var i = 0; i < l; i++) {
+      for(var i=0; i < l; i++) {
 
         var notAddr = false;
         // non standard input
-
         if (items[i].scriptSig && !items[i].addr) {
           items[i].addr = 'Unparsed address [' + u++ + ']';
           items[i].notAddr = true;
@@ -55,7 +54,7 @@ angular.module('insight.transactions').controller('transactionsController',
         }
         tmp[addr].isSpent = items[i].spentTxId;
 
-        tmp[addr].doubleSpentTxID = tmp[addr].doubleSpentTxID || items[i].doubleSpentTxID;
+        tmp[addr].doubleSpentTxID = tmp[addr].doubleSpentTxID   || items[i].doubleSpentTxID;
         tmp[addr].doubleSpentIndex = tmp[addr].doubleSpentIndex || items[i].doubleSpentIndex;
         tmp[addr].dbError = tmp[addr].dbError || items[i].dbError;
         tmp[addr].valueSat += Math.round(items[i].value * COIN);
@@ -68,14 +67,14 @@ angular.module('insight.transactions').controller('transactionsController',
         tmp[addr].count++;
       }
 
-      angular.forEach(tmp, function (v) {
-        v.value = v.value || parseInt(v.valueSat) / COIN;
+      angular.forEach(tmp, function(v) {
+        v.value    = v.value || parseInt(v.valueSat) / COIN;
         ret.push(v);
       });
       return ret;
     };
 
-    var _processTX = function (tx) {
+    var _processTX = function(tx) {
       if (tx.type !== 6 && tx.type !== 7) {
         tx.vinSimple = _aggregateItems(tx.vin);
         tx.voutSimple = _aggregateItems(tx.vout);
@@ -90,23 +89,23 @@ angular.module('insight.transactions').controller('transactionsController',
       }
     };
 
-    var _paginate = function (data) {
+    var _paginate = function(data) {
       $scope.loading = false;
 
       pagesTotal = data.pagesTotal;
       pageNum += 1;
 
-      data.txs.forEach(function (tx) {
+      data.txs.forEach(function(tx) {
         _processTX(tx);
         $scope.txs.push(tx);
       });
     };
 
-    var _byBlock = function () {
+    var _byBlock = function() {
       TransactionsByBlock.get({
         block: $routeParams.blockHash,
         pageNum: pageNum
-      }, function (data) {
+      }, function(data) {
         _paginate(data);
       });
     };
@@ -115,29 +114,31 @@ angular.module('insight.transactions').controller('transactionsController',
       TransactionsByAddress.get({
         address: $routeParams.addrStr,
         pageNum: pageNum
-      }, function (data) {
+      }, function(data) {
         _paginate(data);
       });
     };
 
-    var _findTx = function (txid) {
+    var _findTx = function(txid) {
       Transaction.get({
         txId: txid
-      }, function (tx) {
-        if (tx.txid) {
-          $rootScope.titleDetail = tx.txid.substring(0, 7) + '...';
+      }, function(tx) {
+        if(tx.txid){
+          $rootScope.titleDetail = tx.txid.substring(0,7) + '...';
         }
         $rootScope.flashMessage = null;
         $scope.tx = tx;
         _processTX(tx);
         $scope.txs.unshift(tx);
-      }, function (e) {
+      }, function(e) {
         // FIXME : Do we even enter here ? status 4** do not throw exceptions
         if (e.status === 400) {
           $rootScope.flashMessage = 'Invalid Transaction ID: ' + $routeParams.txId;
-        } else if (e.status === 503) {
+        }
+        else if (e.status === 503) {
           $rootScope.flashMessage = 'Backend Error. ' + e.data;
-        } else {
+        }
+        else {
           $rootScope.flashMessage = 'Transaction Not Found';
         }
 
@@ -145,24 +146,25 @@ angular.module('insight.transactions').controller('transactionsController',
       });
     };
 
-    $scope.findThis = function () {
+    $scope.findThis = function() {
       _findTx($routeParams.txId);
     };
 
     //Initial load
-    $scope.load = function (from) {
+    $scope.load = function(from) {
       $scope.loadedBy = from;
       $scope.loadMore();
     };
 
     //Load more transactions for pagination
-    $scope.loadMore = function () {
+    $scope.loadMore = function() {
       if (pageNum < pagesTotal && !$scope.loading) {
         $scope.loading = true;
 
         if ($scope.loadedBy === 'address') {
           _byAddress();
-        } else {
+        }
+        else {
           _byBlock();
         }
       }
@@ -179,31 +181,31 @@ angular.module('insight.transactions').controller('transactionsController',
     //Init without txs
     $scope.txs = [];
 
-    $scope.$on('tx', function (event, txid) {
+    $scope.$on('tx', function(event, txid) {
       _findTx(txid);
     });
 
   });
 
 angular.module('insight.transactions').controller('SendRawTransactionController',
-  function ($scope, $http) {
+  function($scope, $http) {
     $scope.transaction = '';
     $scope.status = 'ready';  // ready|loading|sent|error
     $scope.txid = '';
     $scope.error = null;
 
-    $scope.formValid = function () {
+    $scope.formValid = function() {
       return !!$scope.transaction;
     };
-    $scope.send = function () {
+    $scope.send = function() {
       var postData = {
         rawtx: $scope.transaction
       };
       $scope.status = 'loading';
       $http.post(window.apiPrefix + '/tx/send', postData)
-        .then(function (response) {
-          const {data, status, headers, config} = response;
-          if (typeof (data.txid) != 'string') {
+        .then(function(response) {
+          const { data, status, headers, config } = response;
+          if(typeof(data.txid) != 'string') {
             // API returned 200 but the format is not known
             $scope.status = 'error';
             $scope.error = 'The transaction was sent but no transaction id was got back';
@@ -213,10 +215,10 @@ angular.module('insight.transactions').controller('SendRawTransactionController'
           $scope.status = 'sent';
           $scope.txid = data.txid;
         })
-        .catch(function (response) {
-          const {data, status, headers, config} = response;
+        .catch(function(response) {
+          const { data, status, headers, config } = response;
           $scope.status = 'error';
-          if (data) {
+          if(data) {
             $scope.error = data;
           } else {
             $scope.error = "No error message given (connection error?)"
