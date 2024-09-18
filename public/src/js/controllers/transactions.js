@@ -79,13 +79,12 @@ angular.module('insight.transactions').controller('transactionsController',
       if (tx.type !== 6 && tx.type !== 7) {
         tx.vinSimple = _aggregateItems(tx.vin);
         tx.voutSimple = _aggregateItems(tx.vout);
-        console.log(tx.vinSimple);
-        console.log(tx.voutSimple);
       } else {
         tx.vinSimple = [{
           addr: [tx.type === 6 ? 'QcTx' : 'MnHfTx'],
+          notAddr: true,
           count: 1,
-          value: 1.0
+          value: 0
         }];
         tx.voutSimple = [];
       }
