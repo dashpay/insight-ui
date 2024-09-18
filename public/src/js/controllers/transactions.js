@@ -123,13 +123,13 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
     Transaction.get({
       txId: txid
     }, function(tx) {
-      if(tx.txid){
-        $rootScope.titleDetail = tx.txid.substring(0,7) + '...';
-      }
-      $rootScope.flashMessage = null;
-      $scope.tx = tx;
-      _processTX(tx);
-      $scope.txs.unshift(tx);
+        if(tx.txid){
+          $rootScope.titleDetail = tx.txid.substring(0,7) + '...';
+        }
+        $rootScope.flashMessage = null;
+        $scope.tx = tx;
+        _processTX(tx);
+        $scope.txs.unshift(tx);
     }, function(e) {
       // FIXME : Do we even enter here ? status 4** do not throw exceptions
       if (e.status === 400) {
@@ -188,41 +188,41 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
 });
 
 angular.module('insight.transactions').controller('SendRawTransactionController',
-function($scope, $http) {
-  $scope.transaction = '';
-  $scope.status = 'ready';  // ready|loading|sent|error
-  $scope.txid = '';
-  $scope.error = null;
+  function($scope, $http) {
+    $scope.transaction = '';
+    $scope.status = 'ready';  // ready|loading|sent|error
+    $scope.txid = '';
+    $scope.error = null;
 
-  $scope.formValid = function() {
-    return !!$scope.transaction;
-  };
-  $scope.send = function() {
-    var postData = {
-      rawtx: $scope.transaction
+    $scope.formValid = function() {
+      return !!$scope.transaction;
     };
-    $scope.status = 'loading';
-    $http.post(window.apiPrefix + '/tx/send', postData)
-      .then(function(response) {
-        const { data, status, headers, config } = response;
-        if(typeof(data.txid) != 'string') {
-          // API returned 200 but the format is not known
-          $scope.status = 'error';
-          $scope.error = 'The transaction was sent but no transaction id was got back';
-          return;
-        }
+    $scope.send = function() {
+      var postData = {
+        rawtx: $scope.transaction
+      };
+      $scope.status = 'loading';
+      $http.post(window.apiPrefix + '/tx/send', postData)
+        .then(function(response) {
+          const { data, status, headers, config } = response;
+          if(typeof(data.txid) != 'string') {
+            // API returned 200 but the format is not known
+            $scope.status = 'error';
+            $scope.error = 'The transaction was sent but no transaction id was got back';
+            return;
+          }
 
-        $scope.status = 'sent';
-        $scope.txid = data.txid;
-      })
-      .catch(function(response) {
-        const { data, status, headers, config } = response;
-        $scope.status = 'error';
-        if(data) {
-          $scope.error = data;
-        } else {
-          $scope.error = "No error message given (connection error?)"
-        }
-      });
-  };
-});
+          $scope.status = 'sent';
+          $scope.txid = data.txid;
+        })
+        .catch(function(response) {
+          const { data, status, headers, config } = response;
+          $scope.status = 'error';
+          if(data) {
+            $scope.error = data;
+          } else {
+            $scope.error = "No error message given (connection error?)"
+          }
+        });
+    };
+  });
