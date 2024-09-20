@@ -79,13 +79,14 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
       tx.vinSimple = _aggregateItems(tx.vin);
       tx.voutSimple = _aggregateItems(tx.vout);
     } else {
-      tx.vinSimple = [{
+      const title = [{
         addr: tx.type === 6 ? 'QcTx' : 'MnHfTx',
         notAddr: true,
         count: 1,
         value: 0
       }];
-      tx.voutSimple = [];
+      tx.vinSimple = title;
+      tx.voutSimple = title;
     }
   };
 
