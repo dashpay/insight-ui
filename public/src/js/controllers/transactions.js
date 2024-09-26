@@ -75,8 +75,19 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
   };
 
   var _processTX = function(tx) {
-    tx.vinSimple = _aggregateItems(tx.vin);
-    tx.voutSimple = _aggregateItems(tx.vout);
+    if (tx.type !== 6 && tx.type !== 7) {
+      tx.vinSimple = _aggregateItems(tx.vin);
+      tx.voutSimple = _aggregateItems(tx.vout);
+    } else {
+      const title = [{
+        addr: tx.type === 6 ? 'QcTx' : 'MnHfTx',
+        notAddr: true,
+        count: 1,
+        value: 0
+      }];
+      tx.vinSimple = title;
+      tx.voutSimple = title;
+    }
   };
 
   var _paginate = function(data) {
