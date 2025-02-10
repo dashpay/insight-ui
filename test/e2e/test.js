@@ -29,7 +29,7 @@ describe('basic UI tests', () => {
           height: 720,
         }))
       .build();
-    url = 'http://insight.testnet.networks.dash.org:3001/insight/';
+    url = 'https://insight.testnet.networks.dash.org/insight/';
   });
 
   describe('Home Page', () => {
