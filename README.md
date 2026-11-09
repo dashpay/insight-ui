@@ -2,6 +2,12 @@
 
 A Dash blockchain explorer web application service for [Dashcore Node](https://github.com/dashevo/dashcore-node) using [Insight API](https://github.com/dashevo/insight-api).
 
+## Requirements
+
+Insight 4.0.11 and later need Dash Core v24.0.0 or later. From the `v24` hard fork, older Insight releases cannot read new blocks and older Dash Core releases cannot follow the network. Run Dash Core with `txindex=1`, `addressindex=1`, `spentindex=1` and `timestampindex=1`, and with ZMQ `zmqpubrawtx` and `zmqpubhashblock` pointed at Insight.
+
+The `dashpay/insight` Docker image pins the dashcore-node and Insight API releases it was tested with.
+
 ## Quick Start
 
 Please see the guide at [https://bitcore.io/guides/full-node](https://bitcore.io/guides/full-node) for information about getting a block explorer running. This is only the front-end component of the block explorer, and is packaged together with all of the necessary components in [Dashcore](https://github.com/dashevo/dashcore).
