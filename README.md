@@ -4,9 +4,9 @@ A Dash blockchain explorer web application service for [Dashcore Node](https://g
 
 ## Requirements
 
-Insight 4.0.11 and later need Dash Core v24.0.0 or later. From the `v24` hard fork, older Insight releases cannot read new blocks and older Dash Core releases cannot follow the network. Run Dash Core with `txindex=1`, `addressindex=1`, `spentindex=1` and `timestampindex=1`, and with ZMQ `zmqpubrawtx` and `zmqpubhashblock` pointed at Insight.
+Insight 4.0.11 and later need Dash Core v24.0.0 or later. From the `v24` hard fork, older Insight releases cannot read new blocks and older Dash Core releases cannot follow the network. Run Dash Core with `txindex=1`, `addressindex=1`, `spentindex=1` and `timestampindex=1`, and publish ZMQ `zmqpubhashblock`, `zmqpubrawtx` and `zmqpubrawtxlock` on the address Insight connects to.
 
-The `dashpay/insight` Docker image pins the dashcore-node and Insight API releases it was tested with.
+The backend must be dashcore-node 7.0.6 or later with Insight API 4.0.9 or later. The `dashpay/insight` Docker image pins the releases it was tested with.
 
 ## Quick Start
 
@@ -17,10 +17,10 @@ Please see the guide at [https://bitcore.io/guides/full-node](https://bitcore.io
 To manually install all of the necessary components, you can run these commands:
 
 ```bash
-npm install -g @dashevo/dashcore-node
+npm install -g @dashevo/dashcore-node@^7.0.6
 dashcore-node create mynode
 cd mynode
-dashcore-node install @dashevo/insight-api
+dashcore-node install @dashevo/insight-api@^4.0.9
 dashcore-node install @dashevo/insight-ui
 dashcore-node start
 ```
