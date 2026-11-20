@@ -151,7 +151,8 @@ jobs:
             echo "::error::Expected one package tarball, found ${#FILES[@]}"
             exit 1
           fi
-          echo "file=${FILES[0]}" >> "$GITHUB_OUTPUT"
+          # ./ so that npm reads it as a file, not as a GitHub user/repo shorthand
+          echo "file=./${FILES[0]}" >> "$GITHUB_OUTPUT"
 
       # X.Y-dev for dev releases, latest otherwise
       - name: Set release tag
