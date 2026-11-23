@@ -33,9 +33,9 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/dashevo/insight-ui/issues"
+    "url": "https://github.com/dashpay/insight-ui/issues"
   },
-  "homepage": "https://github.com/dashevo/insight-ui",
+  "homepage": "https://github.com/dashpay/insight-ui",
   "license": "MIT",
   "keywords": [
     "insight",

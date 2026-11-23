@@ -11,8 +11,8 @@ WORKDIR /insight
 
 # Pinned so a rebuild cannot pick up an untested dashcore-node or insight-api.
 # Both need dashcore-lib 0.26 or later to read Dash Core v24 blocks.
-ARG DASHCORE_NODE_REF=v7.0.6
-ARG INSIGHT_API_SPEC=@dashevo/insight-api@4.0.9
+ARG DASHCORE_NODE_REF=v7.0.7
+ARG INSIGHT_API_SPEC=@dashevo/insight-api@4.0.10
 
 # Copy dashcore-node
 RUN git clone --branch ${DASHCORE_NODE_REF} --single-branch --depth 1 https://github.com/dashpay/dashcore-node.git .
