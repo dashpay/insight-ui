@@ -53,52 +53,103 @@ jobs:
       - name: Run tests
         run: npm run test
 
-  release-npm:
-    name: Release NPM package
+  build-npm:
+    name: Build NPM package
     runs-on: ubuntu-24.04
     needs: test
     if: ${{ github.event_name == 'release' }}
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      # Pinned like the publish job: this job decides the published bytes. No
+      # npm cache, so a cache entry written by another run cannot feed the build
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '20'
-
-      - name: Check package version matches tag
-        uses: geritol/match-tag-to-package-version@0.1.0
-        env:
-          TAG_PREFIX: refs/tags/v
-
-      - name: Enable NPM cache
-        uses: actions/cache@v4
-        with:
-          path: '~/.npm'
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
 
       - name: Install NPM dependencies
         run: npm ci
 
-      - name: Set release tag
-        uses: actions/github-script@v7
-        id: tag
-        with:
-          result-encoding: string
-          script: |
-            const tag = context.payload.release.tag_name;
-            const [, major, minor] = tag.match(/^v([0-9]+)\.([0-9]+)/);
-            return (tag.includes('dev') ? `${major}.${minor}-dev` : 'latest');
-
       - name: Use https instead of git protocol fo git
         run: git config --global url."https://".insteadOf git://
 
-      - name: Publish NPM package
-        uses: JS-DevTools/npm-publish@v3
+      # The publish job runs no package scripts, so the prepublishOnly build
+      # runs here and the packed tarball carries its output (public/lib)
+      - name: Build project
+        run: npm run build
+
+      - name: Pack NPM package
+        run: |
+          mkdir npm-package
+          npm pack --ignore-scripts --pack-destination npm-package
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          token: ${{ secrets.NPM_TOKEN }}
-          tag: ${{ steps.tag.outputs.result }}
+          name: npm-package
+          path: npm-package/
+          if-no-files-found: error
+
+  release-npm:
+    name: Release NPM package
+    runs-on: ubuntu-24.04
+    needs: build-npm
+    if: ${{ github.event_name == 'release' }}
+    # npm trusted publishing: npm exchanges the job's OIDC token for a publish
+    # token, so no NPM_TOKEN secret is needed
+    permissions:
+      contents: read
+      id-token: write
+    # Every step here can request an npm publish token, so only GitHub's own
+    # actions run, pinned to commits, and the checks are plain shell
+    steps:
+      # Trusted publishing needs npm 11.5.1 or later. No registry-url: with it,
+      # setup-node writes a token entry to .npmrc and npm tries token auth
+      # instead of the OIDC exchange.
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.14.1'
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: npm-package
+          path: npm-package
+
+      # npm publishes the manifest inside the tarball, so that is what is checked
+      - name: Check package version matches tag
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          PACKAGE=$(tar -xzOf ./npm-package/*.tgz package/package.json | node -p "const p = JSON.parse(require('fs').readFileSync(0, 'utf8')); p.name + '@' + p.version")
+          if [ "$PACKAGE" != "@dashevo/insight-ui@${RELEASE_TAG#v}" ]; then
+            echo "::error::Release tag $RELEASE_TAG does not match packed $PACKAGE"
+            exit 1
+          fi
+
+      # X.Y-dev for dev releases, latest otherwise
+      - name: Set release tag
+        id: tag
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if [[ "$RELEASE_TAG" == *dev* ]]; then
+            [[ "$RELEASE_TAG" =~ ^v([0-9]+)\.([0-9]+) ]]
+            echo "result=${BASH_REMATCH[1]}.${BASH_REMATCH[2]}-dev" >> "$GITHUB_OUTPUT"
+          else
+            echo "result=latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Publishes the tarball built in build-npm: nothing is installed or built
+      # here, so no package script runs while the OIDC token is available.
+      # Trusted publishing adds a provenance attestation, which requires the
+      # packed package.json's repository.url to name this repository.
+      # --loglevel verbose is the only level at which npm logs why an OIDC
+      # token exchange failed.
+      - name: Publish NPM package
+        env:
+          NPM_TAG: ${{ steps.tag.outputs.result }}
+        run: npm publish ./npm-package/*.tgz --ignore-scripts --access public --tag "$NPM_TAG" --loglevel verbose
 
   release-docker:
     name: Release Docker image
